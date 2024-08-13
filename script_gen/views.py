@@ -60,9 +60,11 @@ def userlogout(request):
 
 @csrf_exempt
 def gen_script(request):
+    print("gen_script view called")
     if request.method == 'POST':
         try: 
-            data = json.load(request.body)
+            data = json.loads(request.body)
+            print(f"Received data: {data}")
             link = data['link']
         except (KeyError, json.JSONDecodeError): 
             return JsonResponse({'Error': 'Invalid data link'}, status = 400)
@@ -80,7 +82,7 @@ def gen_script(request):
         #save blog 
 
         #return blog
-        return JsonResponse({'Content': content})
+        return JsonResponse({'content': content})
     else:
         return JsonResponse({'Error': 'Invalid request method'}, status = 405)
     
