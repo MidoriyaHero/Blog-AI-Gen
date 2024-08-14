@@ -11,6 +11,7 @@ from youtube_transcript_api.formatters import TextFormatter
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
+from .models import Blogpost
 
 # Create your views here.
 load_dotenv()
@@ -68,7 +69,6 @@ def gen_script(request):
             link = data['link']
         except (KeyError, json.JSONDecodeError): 
             return JsonResponse({'Error': 'Invalid data link'}, status = 400)
-        
         #Get ytb title
         title = yt_title(link)
         #Get script
@@ -80,18 +80,35 @@ def gen_script(request):
         if not content:
             return JsonResponse({'Error': 'Fail to get transcript'}, status =500)
         #save blog 
-
+        new_blog = Blogpost.objects.create(user = request.user, 
+                                           yt_title = title, 
+                                           yt_link = link, 
+                                           content_gen = content, 
+                                           )
+        new_blog.save()
         #return blog
         return JsonResponse({'content': content})
     else:
         return JsonResponse({'Error': 'Invalid request method'}, status = 405)
-    
+
+def all_blogs(request):
+    blog_contents = Blogpost.objects.filter(user = request.user)
+    print(blog_contents.count())
+    return render(request, 'all-blogs.html', {'blog_contents': blog_contents})
+
+def blog_detail(request,pk):
+    detail = Blogpost.objects.get(id=pk)
+    if request.user == detail.user:
+        return render(request, 'detail-blog.html',{'detail':detail})
+    else:
+        return redirect('/')
+
 def yt_title(link):
     yt = YouTube(link)
     title = yt.title
     return title
 
-def get_transcript(video_id, languages=['en','en-US','en-GB']):
+def get_transcript(video_id, languages=['en','en-US','en-GB','vi']):
     transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=languages)
     transcript = TextFormatter().format_transcript(transcript)
     return transcript
@@ -101,7 +118,7 @@ def get_ai_extract(text):
     GEMINI_API = os.getenv("GEMINI_API_KEY")
     genai.configure(api_key=GEMINI_API)
     genai_model = genai.GenerativeModel('gemini-1.5-flash')
-    prompt = f'You are the expert in writing blog posts. Here is a transcription of youtube video \n\n {text}\n\n. Your task is to write a comprehensive blog article base on the given transcript and do not make it look like a youtube video, make it look like a proper blog article.'
+    prompt = f'You are the expert in writing blog posts. Here is a transcription of youtube video \n\n {text}\n\n. Your task is to write a comprehensive blog article base on the given transcript and do not make it look like a youtube video, make it look like a proper blog article. Use language as same as the given transcript'
     response = genai_model.generate_content(prompt, stream=False)
     return response.text, response.prompt_feedback, response.candidates
 

@@ -14,8 +14,11 @@
                 BLOG-CONTENT AI GENERATOR
             </h1>
         </div>
-        <div class ="bg-green-300 text-white py-1 rounded-md transition-transfrom transform hover:bg-green-500 hover:scale-110">
-            <a href ="#" class = "text-white hover:underline">Logout</a>
+        <div class ="bg-green-300 text-white py-1 rounded-md transition-transfrom transform hover:bg-green-700 hover:scale-110">
+            <div>
+                <span class ="text-white px-2"> Hello {{user.username}}</span>
+            </div>
+            <a href ="login" class = "text-white hover:underline px-2">Logout</a>
         </div>
     </nav>
 
@@ -27,18 +30,17 @@
              <section>
                 <h2 class="text-xl mb-4 font-semibold">All Blogs Posts</h2>
                 <div class ="space-y-4">
-                    <div class ="border border-gray-300 p-4 rounded-lg">
-                        <h3 class = "text-lg font-semibold">Blog Post Title 1</h3>
-                        <p>This is content of blogs posts</p>
-                    </div>
-                </div>
-                <div class ="space-y-4">
-                    <div class ="border border-gray-300 p-4 rounded-lg">
-                        <h3 class = "text-lg font-semibold">Blog Post Title 2</h3>
-                        <p>This is content of blogs posts</p>
-                    </div>
+
+                    {% for content in blog_contents reversed %}
+                    <a href ="/detail-blog/{{content.id}}">
+                        <div class ="border border-gray-300 p-4 rounded-lg transition-transfrom transform hover:bg-green-300 hover:scale-110">
+                            <h3 class = "text-lg font-semibold">{{content.yt_title}}</h3>
+                            <p>{{content.content_gen|truncatechars:80}}</p>
+                        </div>
+                    </a>
+                    <br>
+                    {% endfor %}
                     <!-- Repeat -->
-                     
                 </div>
              </section>
 

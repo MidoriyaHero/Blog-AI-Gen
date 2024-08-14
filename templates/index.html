@@ -56,11 +56,12 @@
                 BLOG-CONTENT AI GENERATOR
             </h1>
         </div>
-        <div class ="bg-green-500 text-white py-1 px-2 rounded-md transition-transfrom transform hover:bg-green-700 hover:scale-110">
-            <span class ="text-white"> Hello {{user.username}}</span>
+        <div class ="text-white py-1 px-2 ">
             <div>
-                <a href ="login" class = "text-white hover:underline">Logout</a>
+                <span>Welcome {{user.username}}</span>
             </div>
+            <a href ="all_blogs" class = "text-white px-1 py-1 bg-green-300 rounded-md transition-transfrom transform hover:bg-green-700 hover:scale-110 hover:underline">My Blogs</a>
+            <a href ="login" class = "text-white px-1 py-1 bg-green-300 rounded-md transition-transfrom transform hover:bg-green-700 hover:scale-110 hover:underline">Logout</a>
         </div>
     </nav>
 
@@ -73,24 +74,23 @@
             
             <!-- INTRO SECTION -->
             <div class = "text-center">
-                <h2 class = "text-2xl font-semibold mb-5">CÁCH DÙNG WEB CỦA ANH</h2>
+                <h2 class = "text-2xl font-semibold mb-5">WELCOME BRO!</h2>
                 <P class = "text-gray-500">
-                    EM BỎ LINK GÌ VÔ CŨNG ĐƯỢC MIỄN CÓ TIẾNG LÀ ĐƯỢC!<br>
-                    RỒI WEB ANH NÓ CHUYỂN SANG SCRIPT CHO EM
+                    Put youtube video link about the topic/content that you want to create.<br>
+                    Then you will get what you need :)))))
                 </P>
             </div>
             <br>
 
             <!-- Put link Section -->
              <div>
-                <h2 class ="text-xl mb-4 font-semibold">Bỏ Link vô đây em</h2>
+                <h2 class ="text-xl mb-4 font-semibold">Link here!</h2>
                 <div class = "flex space-x-4">
                     <input id="inputLink" type ="url" placeholder = "Bỏ Link Vô Đi Em" class ="flex-grow p-2 border border-green-500 rounded-md" >
                     <button id ="generateButton" class ="bg-green-300 text-white px-5 py-2 rounded-md hover:bg-green-500 transition-color">Tạo Blog lun!</button>
                 </div>
              </div>
-             <!-- section for loading script -->
-             <div style = "display: none;" id="loadingCircel" class= "load"></div>
+             
              <!-- SCRIPT DISPLAY -->
               <section class="mt-10 flex-grow">
                 <h2 class ="text-xl mb-4 font-semibold">Generated Blog Content</h2>
@@ -98,6 +98,8 @@
 
                 </div>
               </section>
+              <!-- section for loading script -->
+             <div style = "display: none;" id="loadingCircel" class= "load"></div>
         </div>
     </div>
 
