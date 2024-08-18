@@ -89,5 +89,3 @@ Running migrations:
 Then go to `admin.py` in `script_gen folder`
 adding your model name <br> 
 `admin.site.register(ModelName)`
-
-# NOTED: Please add them into database to make the website work.
